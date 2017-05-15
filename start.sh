@@ -363,9 +363,9 @@ configure_certs()
 
     if [ -f "$chain_path" ]; then
         if grep -q tls_server_ca_file /etc/imapd.conf ; then
-            sed -i --follow-symlinks -e "s|^tls_server_ca_file:.*|tls_server_ca_file: $chain_path|g" /etc/imapd.conf
+            sed -i --follow-symlinks -e "s|^tls_server_ca_file:.*|tls_server_ca_file: $fullchain_path|g" /etc/imapd.conf
         else
-            sed -i --follow-symlinks -e "/tls_server_cert/atls_server_ca_file: $chain_path" /etc/imapd.conf
+            sed -i --follow-symlinks -e "/tls_server_cert/atls_server_ca_file: $fullchain_path" /etc/imapd.conf
         fi
     else
         sed -i --follow-symlinks -e "/^tls_server_ca_file/d" /etc/httpd/conf.d/ssl.conf
