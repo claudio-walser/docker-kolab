@@ -357,19 +357,9 @@ configure_certs()
     
     #Configure Cyrus for SSL
     sed -r -i --follow-symlinks \
-        -e "s|^tls_server_cert:.*|tls_server_cert: $certificate_path|g" \
+        -e "s|^tls_server_cert:.*|tls_server_cert: $fullchain_path|g" \
         -e "s|^tls_server_key:.*|tls_server_key: $privkey_path|g" \
         /etc/imapd.conf
-
-    if [ -f "$chain_path" ]; then
-        if grep -q tls_server_ca_file /etc/imapd.conf ; then
-            sed -i --follow-symlinks -e "s|^tls_server_ca_file:.*|tls_server_ca_file: $fullchain_path|g" /etc/imapd.conf
-        else
-            sed -i --follow-symlinks -e "/tls_server_cert/atls_server_ca_file: $fullchain_path" /etc/imapd.conf
-        fi
-    else
-        sed -i --follow-symlinks -e "/^tls_server_ca_file/d" /etc/httpd/conf.d/ssl.conf
-    fi
         
     #Configure Postfix for SSL
     postconf -e smtpd_tls_key_file=$privkey_path
