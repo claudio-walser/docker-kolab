@@ -374,12 +374,6 @@ configure_certs()
     #Configure Postfix for SSL
     postconf -e smtpd_tls_key_file=$privkey_path
     postconf -e smtpd_tls_cert_file=$fullchain_path
-    if [ -f "$chain_path" ]; then
-        postconf -e smtpd_tls_CAfile=$chain_path
-    else
-        postconf -e smtpd_tls_CAfile=
-    fi
-
 }
  
 configure_force_https()
