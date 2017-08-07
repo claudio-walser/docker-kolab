@@ -41,7 +41,7 @@ RUN sed -i "840s/\$this/\$me/g"  /usr/share/roundcubemail/program/lib/Roundcube/
 
 # fix permissions for amavis and clam
 RUN sed -i 's|"/var/spool/amavisd/clamd.sock"|"127.0.0.1:3310"|' /etc/amavisd/amavisd.conf \
- && echo "$inet_socket_bind = '127.0.0.1';" >> /etc/amavisd/amavisd.conf
+ && echo "$inet_socket_bind = '127.0.0.1';" >> /etc/amavisd/amavisd.conf \
  && usermod -a -G clam -G amavis clam \
  && usermod -a -G clam -G amavis amavis
 
