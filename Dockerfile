@@ -39,6 +39,11 @@ RUN echo password | saslpasswd2 sasldb2 && chown cyrus:saslauth /etc/sasldb2
 # fix: http://trac.roundcube.net/ticket/1490424
 RUN sed -i "840s/\$this/\$me/g"  /usr/share/roundcubemail/program/lib/Roundcube/rcube_ldap.php 
 
+
+# fix roundcube zipdownload plugin for php5.3 (i know, its oooooooooold)
+RUN set -i 's|private $names = [];|private $names = array();|' /usr/share/roundcubemail/plugins/zipdownload/zipdownload.php;
+
+
 # fix permissions for amavis and clam
 RUN sed -i 's|"/var/spool/amavisd/clamd.sock"|"127.0.0.1:3310"|' /etc/amavisd/amavisd.conf \
  && echo "\$inet_socket_bind = '127.0.0.1';" >> /etc/amavisd/amavisd.conf \
